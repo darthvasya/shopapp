@@ -30,25 +30,32 @@
                         <p class="category">Enter your email and password</p>
                     </div>
                     <div class="card-content">
-                        <form>
+                        <form action="index.html">
                             <div class="row">
+                                <div *ngIf="errorMessage" class="alert alert-danger">
+                                    <div>{{errorMessage}}</div>
+                                </div>
+                                <div *ngIf="validationError" class="alert alert-danger">
+                                        <div>{{validationError.username.message}}</div>
+                                    </div>
                                 <div class="col-md-12">
                                     <div class="form-group form-black label-floating is-empty">
                                         <label class="control-label">Email address</label>
-                                        <input type="email" class="form-control">
+                                        <input type="text" class="form-control" [(ngModel)]="loginData.username" (change)="validate()" name="username" autofocus>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group form-black label-floating is-empty">
                                         <label class="control-label">Password</label>
-                                        <input type="text" class="form-control">
+                                        <input type="text" class="form-control" class="form-control" [(ngModel)]="loginData.password" (change)="validate()" name="password">
                                     </div>
                                 </div>
                             </div>
 
                             <div>
-                                <button type="submit" class="btn btn-danger pull-left" [routerLink]="['/signup']">Register</button>
-                                <button type="submit" class="btn btn-danger pull-right" [routerLink]="['/dashboard']" (click)="onLoggedin()">Login</button>
+                                <!-- <button type="submit" class="btn btn-danger pull-left" [routerLink]="['/signup']">Register</button> -->
+                                <button type="submit" class="btn btn-danger pull-right"  (click)="onLogging()">Login</button>
+                                <!-- [routerLink]="['/dashboard']" -->
                             </div>
                             <div class="clearfix"></div>
                         </form>

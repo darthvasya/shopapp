@@ -13,7 +13,7 @@ import { AuthService } from "../shared/core/auth.service";
 export class LoginComponent implements AfterViewInit {
   loginData = new LoginData("", "");
   validationError = {
-    username: {
+    email: {
       status: false,
       message: '',
     },
@@ -37,12 +37,10 @@ export class LoginComponent implements AfterViewInit {
     if (this.isDataValid()) {
       this.authService.login(this.loginData)
         .then(() => {
-          console.log("onsubmit");
-          //this.router.navigate(['/profile']);
+          this.router.navigate(['/dashboard']);
         })
         .catch((err) => {
-          console.log(err);
-          if (err.status === 401) {
+          if (err.status === 401 || err.status == 400) {
             this.errorMessage = 'Неправильный логин или пароль';
           } else if (err.status === 500) {
             this.errorMessage = 'Извините, ошибка на сервере';
@@ -55,31 +53,28 @@ export class LoginComponent implements AfterViewInit {
     }
   }
 
-  onSubmit() {
-
-  }
-
   validate() {
-    console.log("validete");
-    const username = this.loginData.username;
+    console.log(this.validationError);
+    const username = this.loginData.email;
     const password = this.loginData.password;
     if (!username) {
-      this.validationError.username.status = true;
-      this.validationError.username.message = 'Введите имя пользователя';
-    } else if (username.length < 6 || username.length > 24) {
-      this.validationError.username.status = true;
-      this.validationError.username.message = 'Имя пользоваетля должно иметь не менее 6 и не более 24 символов';
+      this.validationError.email.status = true;
+      this.validationError.email.message = 'Введите имя пользователя';
+    } else if (username.length < 5 || username.length > 24) {
+      this.validationError.email.status = true;
+      this.validationError.email.message = 'Имя пользоваетля должно иметь не менее 6 и не более 24 символов';
     } else if (!/^[A-Za-z0-9_\.$]+/g.test(username)) {
-      this.validationError.username.status = true;
-      this.validationError.username.message = 'Имя пользователя может ' +
+      console.log("validete2");
+      this.validationError.email.status = true;
+      this.validationError.email.message = 'Имя пользователя может ' +
         'содержать буквы латинского алфавита (большие и маленькие), знак подчёркивания "_" и точку "."';
     } else {
-      this.validationError.username.status = false;
+      this.validationError.email.status = false;
     }
     if (!password) {
       this.validationError.password.status = true;
       this.validationError.password.message = 'Введите пароль';
-    } else if (password.length < 6 || password.length > 60) {
+    } else if (password.length < 5 || password.length > 60) {
       this.validationError.password.status = true;
       this.validationError.password.message = 'Пароль должен иметь не менее 6 и не более 60 символов';
     } else {
@@ -88,12 +83,10 @@ export class LoginComponent implements AfterViewInit {
   }
 
   isDataValid() {
-    return true;
-    // return !this.validationError.password.status && !this.validationError.username.status;
+    return !this.validationError.password.status && !this.validationError.email.status;
   }
 
   ngAfterViewInit() {
-    //if (this.authService.isLogged()) this.router.navigate(['/profile']);
-    console.log(this.authService.isLogged());
+    if (this.authService.isLogged()) this.router.navigate(['/dashboard']);
   }
 }

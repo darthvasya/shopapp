@@ -40,7 +40,8 @@ export class AuthService {
         return new Promise((resolve, reject) => {
             return this.http.post(`${this.AUTH_ROUTE}/token`, loginData, HttpUtil.REQUEST_OPTIONS_WITH_CONTENT_TYPE_JSON)
                 .map(res => {
-                    console.log(res.json());
+                    this.userData = res.json();
+                    localStorage.setItem('isLogged', JSON.stringify(true));
                     return res.json();
                 })
                 .catch((err) => {
@@ -63,6 +64,7 @@ export class AuthService {
             })
             .subscribe((res) => {
               this.userData = null;
+              localStorage.setItem('isLogged', JSON.stringify(false));
               resolve();
             });
     

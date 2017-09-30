@@ -5,6 +5,7 @@ import { ReplaySubject } from "rxjs";
 import { Subject, Observable } from 'rxjs';
 
 import { LoginData } from "../models/LoginData";
+import { ShopRegistrationModel } from "../models/ShopRegistrationModel";
 import { Token } from "../models/Token";
 
 import { APP_CONFIG } from "../configs/app.config";
@@ -36,11 +37,11 @@ export class AuthService {
     }
 
     login(loginData: LoginData) {
-        console.log(loginData);
         return new Promise((resolve, reject) => {
             return this.http.post(`${this.AUTH_ROUTE}/token`, loginData, HttpUtil.REQUEST_OPTIONS_WITH_CONTENT_TYPE_JSON)
                 .map(res => {
-                    console.log(res.json());
+                    this.userData = res.json();
+                    localStorage.setItem('isLogged', JSON.stringify(true));
                     return res.json();
                 })
                 .catch((err) => {
@@ -54,22 +55,41 @@ export class AuthService {
         });
     }
 
+    register(registerationData: ShopRegistrationModel) {
+        console.log(registerationData);
+        return new Promise((resolve, reject) => {
+            return this.http.post(`${this.AUTH_ROUTE}/registershop`, registerationData, HttpUtil.REQUEST_OPTIONS_WITH_CONTENT_TYPE_JSON)
+                .map(res => {
+                    console.log(res.json());
+                    return res.json();
+                })
+                .catch((err) => {
+                    reject(err);
+                    return Observable.throw(err);
+                })
+                .subscribe((result) => {
+                    resolve();
+                });
+        });
+    }
+
     logout() {
         return new Promise((resolve, reject) => {
-          this.http.post(`${this.AUTH_ROUTE}/logout?token=${this.token}`, null, HttpUtil.REQUEST_OPTIONS_WITH_CONTENT_TYPE_JSON)
-            .catch((err) => {
-              reject(err);
-              return Observable.throw(err);
-            })
-            .subscribe((res) => {
-              this.userData = null;
-              resolve();
-            });
-    
+            this.http.post(`${this.AUTH_ROUTE}/logout?token=${this.token}`, null, HttpUtil.REQUEST_OPTIONS_WITH_CONTENT_TYPE_JSON)
+                .catch((err) => {
+                    reject(err);
+                    return Observable.throw(err);
+                })
+                .subscribe((res) => {
+                    this.userData = null;
+                    localStorage.setItem('isLogged', JSON.stringify(false));
+                    resolve();
+                });
+
         });
-      }
-    
-      isLogged() {
+    }
+
+    isLogged() {
         return !!this.token;
-      }
+    }
 }

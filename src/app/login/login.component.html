@@ -35,26 +35,30 @@
                                 <div *ngIf="errorMessage" class="alert alert-danger">
                                     <div>{{errorMessage}}</div>
                                 </div>
-                                <div *ngIf="validationError" class="alert alert-danger">
-                                        <div>{{validationError.username.message}}</div>
-                                    </div>
+                                <div *ngIf="validationError.email.status" class="alert alert-danger">
+                                    <div>{{validationError.email.message}}</div>
+                                </div>
+                                <div *ngIf="validationError.password.status" class="alert alert-danger">
+                                    <div>{{validationError.password.message}}</div>
+                                </div>
                                 <div class="col-md-12">
                                     <div class="form-group form-black label-floating is-empty">
                                         <label class="control-label">Email address</label>
-                                        <input type="text" class="form-control" [(ngModel)]="loginData.username" (change)="validate()" name="username" autofocus>
+                                        <input type="text" class="form-control" [(ngModel)]="loginData.email" (keypress)="validate()" name="email" autofocus>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group form-black label-floating is-empty">
                                         <label class="control-label">Password</label>
-                                        <input type="text" class="form-control" class="form-control" [(ngModel)]="loginData.password" (change)="validate()" name="password">
+                                        <input type="text" class="form-control" class="form-control" [(ngModel)]="loginData.password" (keypress)="validate()" name="password">
                                     </div>
                                 </div>
                             </div>
 
                             <div>
                                 <!-- <button type="submit" class="btn btn-danger pull-left" [routerLink]="['/signup']">Register</button> -->
-                                <button type="submit" class="btn btn-danger pull-right"  (click)="onLogging()">Login</button>
+                                <h5 class="pull-left">Нет зарегистрированного заведения? <a [routerLink]="['/signup']">Регистрация</a></h5>
+                                <button type="submit" class="btn btn-danger pull-right" (click)="onLogging()">Login</button>
                                 <!-- [routerLink]="['/dashboard']" -->
                             </div>
                             <div class="clearfix"></div>

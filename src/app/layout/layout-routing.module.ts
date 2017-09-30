@@ -7,6 +7,7 @@ const routes: Routes = [
         path: '', component: LayoutComponent,
         children: [
             { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
+            { path: 'items', loadChildren: './items/items.module#ItemsModule' },
             { path: 'icons', loadChildren: './icons/icons.module#IconsModule' },
             { path: 'user-profile', loadChildren: './user-profile/user-profile.module#UserProfileModule' },
             { path: 'notifications', loadChildren: './notifications/notifications.module#NotificationsModule' },

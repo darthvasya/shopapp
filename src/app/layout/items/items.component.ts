@@ -81,6 +81,10 @@ export class ItemsComponent implements OnInit {
   ngOnInit() {
   }
 
+  addNewItem(categoryId: any) {
+    
+  }
+
 }
 
 

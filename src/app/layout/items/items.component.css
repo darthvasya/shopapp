@@ -21,3 +21,7 @@ ng2-smart-table {
     width: 35px;
     height: 35px;
 }
+
+.itemDescription {
+    width: 100%;
+}

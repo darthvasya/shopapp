@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { items } from './items';
 
 
 @Component({
@@ -9,6 +10,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 })
 export class ItemsComponent implements OnInit {
 
+  items: any[] = [];
   rows: any[] = [];
   showEditable: boolean = true;
   editRowId: any;
@@ -20,6 +22,8 @@ export class ItemsComponent implements OnInit {
 
   constructor() {
     this.rows = arr;
+    this.items = items;
+    console.log(items);
   }
 
   save() {
@@ -82,7 +86,7 @@ export class ItemsComponent implements OnInit {
   }
 
   addNewItem(categoryId: any) {
-    
+
   }
 
 }
@@ -98,3 +102,5 @@ export const arr = [
     name: 'two'
   }
 ]
+
+
